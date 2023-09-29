@@ -8,7 +8,7 @@
             Add New Book
         </a>
     </div>
-    <div class="col-12 border p-3" >
+    <div class="col-12 border p-3">
         <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
@@ -20,8 +20,50 @@
             </thead>
         </table>
     </div>
-</div> 
+    @* <form id="postImages" method="POST" enctype="multipart/form-data" data-ajax="true" data-ajax-method="post"
+    data-ajax-url="/Books/CreateFoderFiles/" data-ajax-loading="#loading" data-ajax-mode="replace"
+    data-ajax-update="#updateDiv">
+    <label for="file">Folder Name:</label>
+    <input type="text" name="folderName" />
+    <span>Select File:</span>
+    <input type="file" name="postedFiles" multiple />
+    <input type="submit" value="upload">
+    <br />
+    </form> *@
 
-@section Scripts{ 
-<script src="~/js/bookList.js"></script>
+    <form action="/Books/CreateFoderFiles/" enctype="multipart/form-data" onsubmit="AJAXSubmit(this);return false;"
+        method="post">
+        <label for="file">Folder Name:</label>
+        <input type="text" name="folderName" />
+        <span>Select File:</span>
+        <input type="file" name="postedFiles" multiple />
+        <input type="submit" value="upload">
+        <br />
+    </form>
+
+    <script>
+        async function AJAXSubmit(oFormElement) {
+            const formData = new FormData(oFormElement);
+            try {
+                const response = await fetch(oFormElement.action, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    console.log("ok");
+                }
+
+                @* resultElement.value = 'Result: ' + response.status + ' ' +
+                    response.statusText; *@
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/bookList.js"></script>
 }

@@ -63,3 +63,53 @@ function Delete(url) {
         }
     });
 }
+
+function UploadFiles(url) {
+    form = document.getElementById('postImages');
+    var formData = new FormData();
+    formData.append('folderName',form.querySelector("input[name='folderName']").value);
+    formData.append('postedFiles',form.querySelector("input[name='postedFiles']").files);
+    swal({
+        title: "Are you sure?",
+        text: "Once Upload, you will not be able to recover",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                body: formData,
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+                }
+            });
+        }
+    });
+}
+function sendAjax(url) {
+
+    let form = $('form').serialize();
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        data: form,
+        dataType: 'json',
+        success: function (data) {
+            if (data.success) {
+                toastr.success(data.message);
+            }
+            else {
+                toastr.error(data.message);
+            }
+        }
+            //end of Ajax
+    });
+}
